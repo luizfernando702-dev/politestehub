@@ -1,0 +1,198 @@
+@import "tailwindcss";
+
+@layer base {
+  html {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+/* Custom scrollbar for modern logistics density */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* Safe area insets for mobile devices with notches or home bars */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 16px);
+}
+
+.pt-safe {
+  padding-top: env(safe-area-inset-top, 16px);
+}
+
+/* ========================================================================= */
+/* POLIHUB — SISTEMA DE TEMA CLARO (LIGHT THEME)                             */
+/* Mantém 100% de integridade no Dark Theme e adapta fundos, textos, bordas, */
+/* tabelas, abas, modais e formulários no Light Theme                        */
+/* ========================================================================= */
+
+html.theme-light {
+  color-scheme: light;
+}
+
+html.theme-light body {
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+/* Scrollbars em Tema Claro */
+html.theme-light ::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+html.theme-light ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+}
+
+html.theme-light ::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Mapeamento de Fundos (Backgrounds) */
+html.theme-light .bg-slate-950 {
+  background-color: #f8fafc !important;
+}
+
+html.theme-light .bg-slate-950\/90,
+html.theme-light .bg-slate-950\/80 {
+  background-color: rgba(248, 250, 252, 0.95) !important;
+}
+
+html.theme-light .bg-slate-950\/60,
+html.theme-light .bg-slate-950\/50,
+html.theme-light .bg-slate-950\/40 {
+  background-color: #f1f5f9 !important;
+}
+
+html.theme-light .bg-slate-900 {
+  background-color: #ffffff !important;
+}
+
+html.theme-light .bg-slate-900\/90,
+html.theme-light .bg-slate-900\/80,
+html.theme-light .bg-slate-900\/60,
+html.theme-light .bg-slate-900\/50 {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+}
+
+html.theme-light .bg-slate-800 {
+  background-color: #f1f5f9 !important;
+}
+
+html.theme-light .bg-slate-800\/80,
+html.theme-light .bg-slate-800\/60,
+html.theme-light .bg-slate-800\/50,
+html.theme-light .bg-slate-800\/40 {
+  background-color: #f1f5f9 !important;
+}
+
+/* Estados de Hover em Linhas e Botões */
+html.theme-light .hover\:bg-slate-800:hover,
+html.theme-light .hover\:bg-slate-800\/60:hover,
+html.theme-light .hover\:bg-slate-800\/50:hover,
+html.theme-light .hover\:bg-slate-800\/40:hover {
+  background-color: #e2e8f0 !important;
+}
+
+html.theme-light .hover\:bg-slate-900:hover {
+  background-color: #f8fafc !important;
+}
+
+/* Mapeamento de Bordas */
+html.theme-light .border-slate-800,
+html.theme-light .border-slate-800\/80,
+html.theme-light .border-slate-800\/60,
+html.theme-light .border-slate-800\/50 {
+  border-color: #e2e8f0 !important;
+}
+
+html.theme-light .border-slate-700,
+html.theme-light .border-slate-700\/80 {
+  border-color: #cbd5e1 !important;
+}
+
+html.theme-light .border-slate-600 {
+  border-color: #94a3b8 !important;
+}
+
+/* Mapeamento de Textos */
+html.theme-light .text-white:not([class*="bg-blue"]):not([class*="bg-emerald"]):not([class*="bg-rose"]):not([class*="bg-amber"]):not([class*="bg-red"]):not([class*="bg-green"]):not([class*="bg-indigo"]):not([class*="bg-purple"]) {
+  color: #0f172a !important;
+}
+
+html.theme-light .text-slate-100:not([class*="bg-blue"]):not([class*="bg-emerald"]):not([class*="bg-rose"]):not([class*="bg-amber"]):not([class*="bg-red"]):not([class*="bg-green"]) {
+  color: #0f172a !important;
+}
+
+html.theme-light .text-slate-200 {
+  color: #1e293b !important;
+}
+
+html.theme-light .text-slate-300 {
+  color: #334155 !important;
+}
+
+html.theme-light .text-slate-400 {
+  color: #64748b !important;
+}
+
+html.theme-light .text-slate-500 {
+  color: #64748b !important;
+}
+
+/* Formulários: Inputs, Selects e Textareas */
+html.theme-light input:not([type="checkbox"]):not([type="radio"]),
+html.theme-light select,
+html.theme-light textarea {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+html.theme-light input::placeholder,
+html.theme-light textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+html.theme-light select option {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+/* Tabelas e Modais */
+html.theme-light table {
+  background-color: #ffffff !important;
+}
+
+html.theme-light thead {
+  background-color: #f8fafc !important;
+  border-bottom-color: #e2e8f0 !important;
+}
+
+html.theme-light tbody tr:hover {
+  background-color: #f8fafc !important;
+}
+
+html.theme-light .shadow-2xl,
+html.theme-light .shadow-xl {
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04) !important;
+}

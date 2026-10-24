@@ -1,0 +1,8 @@
+{
+  "name": "Remix PoliHub — Sistema de Gestão Logística",
+  "description": "Sistema mobile-first para gestão e operação de processos logísticos com agendamentos, endereçamento e inventário.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <script>
+      // Suprime logs benignos de reconexão do Vite HMR no ambiente onde HMR é desativado pela plataforma
+      (function() {
+        if (typeof window === 'undefined') return;
+        var NativeWebSocket = window.WebSocket;
+        if (NativeWebSocket) {
+          function MockWebSocket(url, protocols) {
+            var urlStr = String(url || '');
+            var isViteHmr = urlStr.includes('vite-hmr') ||
+                            urlStr.includes('token=') ||
+                            urlStr.includes(':3000') ||
+                            protocols === 'vite-hmr' ||
+                            (Array.isArray(protocols) && protocols.includes('vite-hmr'));
+            if (isViteHmr) {
+              var target = new EventTarget();
+              var dummy = {
+                CONNECTING: 0,
+                OPEN: 1,
+                CLOSING: 2,
+                CLOSED: 3,
+                readyState: 1,
+                url: urlStr,
+                protocol: 'vite-hmr',
+                extensions: '',
+                bufferedAmount: 0,
+                binaryType: 'blob',
+                send: function() {},
+                close: function() {
+                  dummy.readyState = 3;
+                  target.dispatchEvent(new Event('close'));
+                  if (dummy.onclose) dummy.onclose(new Event('close'));
+                },
+                addEventListener: target.addEventListener.bind(target),
+                removeEventListener: target.removeEventListener.bind(target),
+                dispatchEvent: target.dispatchEvent.bind(target),
+                onopen: null,
+                onclose: null,
+                onerror: null,
+                onmessage: null
+              };
+              return dummy;
+            }
+            return new NativeWebSocket(url, protocols);
+          }
+          MockWebSocket.CONNECTING = 0;
+          MockWebSocket.OPEN = 1;
+          MockWebSocket.CLOSING = 2;
+          MockWebSocket.CLOSED = 3;
+          MockWebSocket.prototype = NativeWebSocket.prototype;
+          window.WebSocket = MockWebSocket;
+        }
+
+        const isViteHmrLog = function(...args) {
+          return args.some(function(arg) {
+            if (!arg) return false;
+            var str = typeof arg === 'string' ? arg : (arg.message || arg.stack || String(arg));
+            return (
+              str.includes('[vite]') ||
+              str.includes('[hmr]') ||
+              str.includes('failed to connect to websocket') ||
+              str.includes('WebSocket connection to') ||
+              str.includes('websocket') ||
+              str.includes('WebSocket') ||
+              str.includes('vite-plugin-pwa:dev-ready') ||
+              str.includes('ERR_CONNECTION_REFUSED')
+            );
+          });
+        };
+        var _log = console.log;
+        var _warn = console.warn;
+        var _error = console.error;
+        var _debug = console.debug;
+        var _info = console.info;
+
+        console.log = function(...args) {
+          if (isViteHmrLog.apply(null, args)) return;
+          _log.apply(console, args);
+        };
+        console.warn = function(...args) {
+          if (isViteHmrLog.apply(null, args)) return;
+          _warn.apply(console, args);
+        };
+        console.error = function(...args) {
+          if (isViteHmrLog.apply(null, args)) return;
+          _error.apply(console, args);
+        };
+        console.debug = function(...args) {
+          if (isViteHmrLog.apply(null, args)) return;
+          _debug.apply(console, args);
+        };
+        console.info = function(...args) {
+          if (isViteHmrLog.apply(null, args)) return;
+          _info.apply(console, args);
+        };
+
+        window.addEventListener('error', function(event) {
+          if (event && (isViteHmrLog(event.message) || isViteHmrLog(event.error) || isViteHmrLog(event.filename))) {
+            event.stopImmediatePropagation();
+            event.preventDefault();
+            return false;
+          }
+        }, true);
+
+        window.addEventListener('unhandledrejection', function(event) {
+          if (event && isViteHmrLog(event.reason)) {
+            event.stopImmediatePropagation();
+            event.preventDefault();
+            return false;
+          }
+        }, true);
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>Polifiltro — Logística Inteligente</title>
+    <meta name="description" content="Sistema mobile-first para gestão e operação de processos logísticos com agendamentos, controle de coletas da expedição, tarefas com prazos dinâmicos e RLS, recebimento, alocação de produtos, relatórios gerenciais analíticos e exportação Excel, endereçamento e inventário." />
+    
+    <!-- PWA & Mobile Web App meta tags -->
+    <meta name="theme-color" content="#0f172a" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Polifiltro" />
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Polifiltro — Logística Inteligente" />
+    <meta property="og:description" content="Sistema mobile-first para gestão e operação de processos logísticos com agendamentos, recebimento, alocação de produtos, endereçamento e inventário." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/pwa-512x512.png" />
+    <meta name="twitter:card" content="summary" />
+    
+    <!-- Modern Sans typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-slate-950 text-slate-100 antialiased selection:bg-blue-600 selection:text-white min-h-screen">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
